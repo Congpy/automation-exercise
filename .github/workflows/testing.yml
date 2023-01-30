@@ -1,0 +1,61 @@
+name: CI workflow
+
+on: [push]
+
+jobs:
+  style_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: "Install style checker"
+        run: pip install black
+      - name: "Run style check"
+        run: black --check .
+  test:
+    needs: style_check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: "Run pytest"
+        run: python -m pytest
+      - name: "Install coverage"
+        run: pip install -U coverage
+      - name: "Run coverage"
+        run: coverage run -m pytest
+      - name: "Generate coverage report"
+        run: coverage report -m
+      - name: "upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage_report
+          path: .coverage
+          retention-days: 1
+          
+  coverage_report:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: "Install coverage"
+        run: pip install -U coverage
+      - name: "download artifact"
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage_report
+      - name: "generate coverage report as XML"
+        run: coverage xml 
+      - name: "upload XML artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage.xml
+          path: coverage.xml
+          retention-days: 14
