@@ -1,4 +1,4 @@
-[![CI workflow](https://github.com/Congpy/automation-exercise/actions/workflows/testing.yml/badge.svg)](https://github.com/Congpy/automation-exercise/actions/workflows/testing.yml)
+[![SSE CI/CD](https://github.com/Congpy/automation-exercise/actions/workflows/testing.yml/badge.svg)](https://github.com/Congpy/automation-exercise/actions/workflows/testing.yml)
 
 # Automation Exercise
 
