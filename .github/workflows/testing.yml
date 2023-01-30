@@ -14,6 +14,8 @@ jobs:
         run: pip install black
       - name: "Run style check"
         run: black --check *.py
+      - name: "Tell what is wrong"
+        run: black --check --diff *.py 
   test:
     needs: style_check
     runs-on: ubuntu-latest
