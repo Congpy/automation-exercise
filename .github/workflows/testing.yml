@@ -12,10 +12,8 @@ jobs:
           python-version: "3.8"
       - name: "Install style checker"
         run: pip install black
-      - name: "Run style check"
-        run: black --check *.py
-      - name: "Tell what is wrong"
-        run: black --check --diff *.py 
+      - name: "Run style check and tell what is wrong"
+        run: black --check -diff *.py
   test:
     needs: style_check
     runs-on: ubuntu-latest
